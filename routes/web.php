@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +38,17 @@ Route::middleware('auth:web,admin')->group(function () {
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])
         ->middleware('auth:admin')
         ->name('admin.logout');
+});
+
+Route::prefix('admin/panel')->middleware('auth:admin')->group(function () {
+    Route::get('/', [AdminPanelController::class, 'dashboard'])->name('admin.panel.dashboard');
+    Route::get('/tasks', [AdminPanelController::class, 'tasks'])->name('admin.panel.tasks');
+    Route::patch('/tasks/{id}/status', [AdminPanelController::class, 'updateTaskStatus'])->name('admin.panel.tasks.status');
+    Route::delete('/tasks/{id}', [AdminPanelController::class, 'destroyTask'])->name('admin.panel.tasks.destroy');
+
+    Route::get('/users', [AdminPanelController::class, 'users'])->name('admin.panel.users');
+    Route::delete('/users/{id}', [AdminPanelController::class, 'destroyUser'])->name('admin.panel.users.destroy');
+
+    Route::get('/admins', [AdminPanelController::class, 'admins'])->name('admin.panel.admins');
+    Route::delete('/admins/{id}', [AdminPanelController::class, 'destroyAdmin'])->name('admin.panel.admins.destroy');
 });

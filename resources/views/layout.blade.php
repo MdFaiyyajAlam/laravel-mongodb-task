@@ -40,6 +40,8 @@
     <div>
         @if(auth('admin')->check())
             <span class="badge text-bg-dark me-2">Admin: {{ auth('admin')->user()->name }}</span>
+            <a href="{{ route('admin.panel.dashboard') }}" class="btn btn-dark btn-sm me-2">Admin Panel</a>
+            <a href="{{ route('tasks.index') }}" class="btn btn-outline-dark btn-sm me-2">My Tasks</a>
             <form method="POST" action="{{ route('admin.logout') }}" class="d-inline">
                 @csrf
                 <button class="btn btn-outline-danger btn-sm">Admin Logout</button>
